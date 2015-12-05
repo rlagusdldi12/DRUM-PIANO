@@ -32,12 +32,49 @@ int main (int argc, char** argv)
 
   printf("-------------------------------------------\n");
   printf("              SELECT OPTION                \n");
-  printf("1=Grayscale | 2=Monochrome | 3=Separate\n");
+  printf("1=Grayscale | 2=Monochrome | 3=Resize\n");
   printf("-------------------------------------------\n");
   printf("Command : ");
   scanf("%d", &i);
-	if (i == 1)
+
+
+	 if (i == 2)
+        {
+                FILE *pp;
+                pp = popen("convert sample.jpg -monochrome sample_monochrome.jpg","r");
+                        if (pp != NULL)
+                        {
+                                while (1)
+                                {
+                                char *line;
+                                char buf[1000];
+                                line = fgets(buf, sizeof buf, pp);
+                                if (line == NULL) break;
+                                if (line[0] == 'd') printf("%s", line); 
+                                }
+                                pclose(pp);
+                        }
+                FILE *ppp;
+                ppp = popen("display sample_monochrome.jpg", "r");
+                        if (ppp != NULL)
+                        {
+                                while (1)
+                                {
+                                char *line;
+                                char buf[1000];
+                                line = fgets(buf, sizeof buf, ppp);
+                                if (line == NULL) break;
+                                if (line[0] == 'd') printf("%s", line); 
+                                }
+                                pclose(ppp);
+                        }
+                printf("output file -> sample_monochrome.jpg\n");
+
+                return 0;
+        }
+	if(i == 1)
 	{
+
 		FILE *pp;
   		pp = popen("convert sample.jpg -colorspace Gray sample_gray.jpg", "r");
   			if (pp != NULL)
@@ -70,7 +107,43 @@ int main (int argc, char** argv)
 
                 return 0;
 	}
-return 0;
+
+	 if (i == 3)
+        {
+                FILE *pp;
+                pp = popen("convert sample.jpg -resize 50% sample_resize.jpg", "r");
+                        if (pp != NULL)
+                        {
+                                while (1)
+                                {
+                                char *line;
+                                char buf[1000];
+                                line = fgets(buf, sizeof buf, pp);
+                                if (line == NULL) break;
+                                if (line[0] == 'd') printf("%s", line); 
+                                }
+                                pclose(pp);
+                        }
+                FILE *ppp;
+                ppp = popen("display sample_resize.jpg", "r");
+                        if (ppp != NULL)
+                        {
+                                while (1)
+                                {
+                                char *line;
+                                char buf[1000];
+                                line = fgets(buf, sizeof buf, ppp);
+                                if (line == NULL) break;
+                                if (line[0] == 'd') printf("%s", line); 
+                                }
+                                pclose(ppp);
+                        }
+                printf("output file -> sample_resize.jpg\n");
+
+		//return 0;
+        }
+	return 0;
 }
+
 
 
