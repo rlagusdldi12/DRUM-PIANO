@@ -3,6 +3,7 @@
 #include <gtk/gtk.h>
 
 int i;
+int flag;
 
 void destroy(void) 
 {
@@ -29,12 +30,16 @@ int main (int argc, char** argv)
 
   gtk_main();
 
+  printf("-------------------------------------------\n");
+  printf("              SELECT OPTION                \n");
+  printf("1=Grayscale | 2=Monochrome | 3=Separate\n");
+  printf("-------------------------------------------\n");
   printf("Command : ");
   scanf("%d", &i);
 	if (i == 1)
 	{
 		FILE *pp;
-  		pp = popen("convert sample.jpg -colorspace Gray sample1.jpg", "r");
+  		pp = popen("convert sample.jpg -colorspace Gray sample_gray.jpg", "r");
   			if (pp != NULL)
 			{
     				while (1)
@@ -43,11 +48,27 @@ int main (int argc, char** argv)
        	 			char buf[1000];
        	 			line = fgets(buf, sizeof buf, pp);
        	 			if (line == NULL) break;
-       	 			if (line[0] == 'd') printf("%s", line); /* line includes '\n' */
+       	 			if (line[0] == 'd') printf("%s", line); 
     				}
   			  	pclose(pp);
   			}
-		return 0;
+		FILE *ppp;
+                ppp = popen("display sample_gray.jpg", "r");
+                        if (ppp != NULL)
+                        {
+                                while (1)
+                                {
+                                char *line;
+                                char buf[1000];
+                                line = fgets(buf, sizeof buf, ppp);
+                                if (line == NULL) break;
+                                if (line[0] == 'd') printf("%s", line); 
+                                }
+                                pclose(ppp);
+                        }
+		printf("output file -> sample_gray.jpg\n");
+
+                return 0;
 	}
 return 0;
 }
