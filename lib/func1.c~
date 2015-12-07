@@ -32,6 +32,6 @@ void gray()
                         }
 		printf("output file -> sample_gray.jpg\n");
 
-                return 0;
+            //    return 0;
 	
 }
